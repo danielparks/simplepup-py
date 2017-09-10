@@ -1,5 +1,4 @@
 import click
-import codecs
 import json
 import logging
 import paramiko.ssh_exception
