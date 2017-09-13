@@ -67,7 +67,7 @@ class HTTPConnection(BaseConnection):
 
 
 class SSHConnection(BaseConnection):
-    def __init__(self, server, username=None, password=None, ignore_host_keys=True):
+    def __init__(self, server, username=None, password=None, ignore_host_keys=False):
         self.server = server
         self.username = username
         self.password = password
