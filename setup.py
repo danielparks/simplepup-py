@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name = "simplepup",
-    version = "0.0.2",
+    version = "0.0.3",
 
     description = "PuppetDB access library and query tool",
     author = "Daniel Parks",
@@ -20,7 +20,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
     ],
 
-    packages = [ "simplepup" ],
+    packages = setuptools.find_packages(),
     install_requires = [
         "click",
         "paramiko",
