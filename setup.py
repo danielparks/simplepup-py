@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name = "simplepup",
-    version = "0.0.3",
+    version = "0.0.4",
 
     description = "PuppetDB access library and query tool",
     author = "Daniel Parks",
