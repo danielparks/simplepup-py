@@ -37,11 +37,13 @@ def main():
 @click.command()
 @click.option("--host", "-h", default="localhost")
 @click.option("--limit", "-l", type=int)
+@click.option("--all", "-A", default=False, is_flag=True,
+    help="Include expired and deactivated nodes")
 @click.option("--verbose", "-v", default=False, is_flag=True)
 @click.option("--debug", "-d", default=False, is_flag=True)
 @click.argument("query", required=True)
 @click.version_option()
-def cli(host, limit, verbose, debug, query):
+def cli(host, limit, all, verbose, debug, query):
     """Query PuppetDB"""
 
     if debug:
@@ -51,9 +53,14 @@ def cli(host, limit, verbose, debug, query):
     else:
         set_up_logging(logging.WARNING)
 
+    filter = puppetdb.QueryFilter()
+    if not all:
+        filter.add("nodes { deactivated is null and expired is null }")
+
     try:
         with puppetdb.AutomaticConnection(host) as pdb:
-            print(json.dumps(pdb.query(query, limit=limit), indent=2, sort_keys=True))
+            results = pdb.query(filter(query), limit=limit)
+            print(json.dumps(results, indent=2, sort_keys=True))
     except socket.gaierror as e:
         sys.exit("PuppetDB connection (Socket): {}".format(e))
     except paramiko.ssh_exception.SSHException as e:
