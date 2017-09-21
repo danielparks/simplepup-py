@@ -35,8 +35,10 @@ def main():
         sys.exit(e)
 
 @click.command()
-@click.option("--host", "-h", default="localhost")
-@click.option("--limit", "-l", type=int)
+@click.option("--host", "-h", default="localhost",
+    help="PuppetDB host to query")
+@click.option("--limit", "-l", type=int,
+    help="Maximum number of results to return")
 @click.option("--all", "-A", default=False, is_flag=True,
     help="Include expired and deactivated nodes")
 @click.option("--verbose", "-v", default=False, is_flag=True)
@@ -44,7 +46,7 @@ def main():
 @click.argument("query", required=True)
 @click.version_option()
 def cli(host, limit, all, verbose, debug, query):
-    """Query PuppetDB"""
+    """Query PuppetDB with PQL"""
 
     if debug:
         set_up_logging(logging.DEBUG)
