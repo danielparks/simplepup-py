@@ -84,6 +84,7 @@ class SSHConnection(BaseConnection):
         config.parse(open(path))
         host = config.lookup(self.server)
 
+        ### This is broken -- next time this runs it will get a different hostname
         self.server = host["hostname"]
         if self.username is None:
             if "user" in host:

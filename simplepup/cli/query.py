@@ -39,13 +39,14 @@ def main():
     help="PuppetDB host to query")
 @click.option("--limit", "-l", type=int,
     help="Maximum number of results to return")
+@click.option("--sort", "-s", help="Attribute to sort by")
 @click.option("--all", "-A", default=False, is_flag=True,
     help="Include expired and deactivated nodes")
 @click.option("--verbose", "-v", default=False, is_flag=True)
 @click.option("--debug", "-d", default=False, is_flag=True)
 @click.argument("query", required=True)
 @click.version_option()
-def cli(host, limit, all, verbose, debug, query):
+def cli(host, limit, sort, all, verbose, debug, query):
     """Query PuppetDB with PQL"""
 
     if debug:
@@ -61,7 +62,7 @@ def cli(host, limit, all, verbose, debug, query):
 
     try:
         with puppetdb.AutomaticConnection(host) as pdb:
-            results = pdb.query(filter(query), limit=limit)
+            results = pdb.query(filter(query), limit=limit, order_by=sort)
             print(json.dumps(results, indent=2, sort_keys=True))
     except socket.gaierror as e:
         sys.exit("PuppetDB connection (Socket): {}".format(e))
